@@ -4,7 +4,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
-public class Customer {
+public class CustomerAPI {
     @NotBlank(message= "First name is required")
     private String firstName;
     @NotBlank(message= "last name is required")
@@ -13,7 +13,7 @@ public class Customer {
     private String norwegianID;
     @Email(message = "Email should be valid")
     private String email;
-    public Customer(String firstName, String lastName, String norwegianID, String email){
+    public CustomerAPI(String firstName, String lastName, String norwegianID, String email){
         super();
         this.firstName=firstName;
         this.lastName=lastName;

@@ -1,7 +1,8 @@
 package no.jax.rs.IntegrationLayer;
 
-import no.jax.rs.IntegrationLayer.models.Agreement;
-import no.jax.rs.IntegrationLayer.models.Customer;
+import no.jax.rs.IntegrationLayer.models.AgreementAPI;
+import no.jax.rs.IntegrationLayer.models.AgreementInput;
+import no.jax.rs.IntegrationLayer.models.CustomerAPI;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,7 @@ import java.io.IOException;
 
 @SpringBootTest(classes =IntegrationLayerApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class SystemIT {
-    private static ClientAndServer mockServer;
+    private static ClientAndServer mockServer1 ,mockServer2 ;
     @LocalServerPort
     private int port;
 
@@ -29,28 +30,23 @@ public class SystemIT {
     HttpHeaders headers = new HttpHeaders();
     @BeforeEach
     public  void setupMockServer() throws IOException, JAXBException {
-        mockServer = ClientAndServer.startClientAndServer(8111);
+        mockServer1 = ClientAndServer.startClientAndServer(8111);
+        mockServer2 = ClientAndServer.startClientAndServer(9111);
         System.out.println("mock server started");
 
-        Expectations.createDefaultExpectations(mockServer);
+        Expectations.createDefaultExpectations(mockServer1,mockServer2);
     }
 
     @AfterEach
     public  void after() {
-        mockServer.stop();
+        mockServer1.stop();
+        mockServer2.stop();
     }
     @Test
     public void testCreateCustomer() {
-        // Create customer
-        Customer customer= new Customer("saroj","pandey","12348911122","example@example.com");
-        HttpEntity<Customer> customerHttpEntity= new HttpEntity<Customer>(customer,headers);
-        ResponseEntity<String> customerResponse = restTemplate.postForEntity(
-                createURLWithPort("/api/customer"),
-                 customerHttpEntity, String.class);
-        Assertions.assertEquals(200, customerResponse.getStatusCodeValue());
-        // Create Agreement
-        Agreement agreement = new Agreement("Demo Agreement",customerResponse.getBody(),5);
-        HttpEntity<Agreement> agreementHttpEntity= new HttpEntity<Agreement>(agreement,headers);
+               // Create Agreement
+        AgreementInput agreementInput = new AgreementInput("John","Rambo","12345678901","example@example.com","TestAgreement",5);
+        HttpEntity<AgreementInput> agreementHttpEntity= new HttpEntity<AgreementInput>(agreementInput,headers);
         ResponseEntity<String> agreementResponse = restTemplate.exchange(
                 createURLWithPort("/api/agreement"),
                 HttpMethod.POST, agreementHttpEntity, String.class);

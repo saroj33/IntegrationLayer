@@ -1,6 +1,7 @@
 package no.jax.rs.IntegrationLayer.web;
 
-import no.jax.rs.IntegrationLayer.models.Agreement;
+import no.jax.rs.IntegrationLayer.models.AgreementAPI;
+import no.jax.rs.IntegrationLayer.models.AgreementInput;
 import no.jax.rs.IntegrationLayer.models.ResponseParser;
 import no.jax.rs.IntegrationLayer.services.RestClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +23,8 @@ public class AgreementController {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createAgreement(@Valid Agreement agreement){
-        ResponseParser response= restClient.callCreateAgreementAPI(agreement);
+    public Response createAgreement(@Valid AgreementInput agreementInput){
+        ResponseParser response= restClient.createAgreementHandler(agreementInput);
         return Response.status(Response.Status.fromStatusCode(response.getStatusCode())).entity(response.getBody()).build();
     }
 }
