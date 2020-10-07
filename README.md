@@ -4,8 +4,8 @@ Spring boot API with mockserver  and systemtest
 # About
 This project is built in spring boot using jersey (as jax-rs implementation).
 This API has only one endpoint /agreement located at /web/AgreementController. The main objective of this endpoint is it consumes 
-4 different APIs from 2 different servers. And outputs success if all the calls succeeds. The business logic of this project i.e consuming 3rd party APIs is located at
-services/ResClientjava.
+3 different endpoints from 2 different servers. And outputs success if all the calls succeed. The business logic of this project i.e consuming 3rd party APIs is located at
+services/ResClient.java
 
 # System Integration Testing
 System integration test is written in a file called SystemIT.java located at test/java/no.jax.rs.IntegrationLayer/SystemIT.java.
