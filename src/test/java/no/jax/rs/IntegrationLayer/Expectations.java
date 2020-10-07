@@ -13,6 +13,7 @@ public class Expectations {
     public static void createDefaultExpectations(ClientAndServer mockServer1,ClientAndServer mockServer2) {
         createCustomer(mockServer1);
         createAgreement(mockServer1);
+        // Using another mock server for letter service
         sendAgreementToCustomer(mockServer2);
         updateAgreement(mockServer1);
     }
@@ -33,13 +34,13 @@ public class Expectations {
     }
 
     private static void updateAgreement (ClientAndServer mockServer) {
-        AgreementAPI agreementApi = new AgreementAPI("TestAgreement","dsfsdf-sdfsdf-sdfds",5,"avtale Sendt");
+        AgreementAPI agreementApi = new AgreementAPI("TestAgreement","dsfsdf-sdfsdf-sdfds",5,"Avtale sendt");
         // Add id to the object
         agreementApi.setId("unique-agreement-ID");
         mockServer.when(request().withMethod("PATCH")
                 .withHeader("Content-Type", "application/json").withPath("/api2/agreement")
                 .withBody(gson.toJson(agreementApi)))
-                .respond(response().withStatusCode(200).withBody("{'agreementID':'unique-agreement-ID','agreementStatus':'avtale Sendt'}")) ;
+                .respond(response().withStatusCode(200).withBody("{'agreementID':'unique-agreement-ID','agreementStatus':'Avtale sendt'}")) ;
     }
 
     private static void sendAgreementToCustomer (ClientAndServer mockServer) {
